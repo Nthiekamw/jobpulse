@@ -19,7 +19,7 @@ def extraire(titre, description):
     return sorted(t for t, m in MOTIFS.items() if m.search(texte))
 
 
-spark = SparkSession.builder.master("local[2]").appName("silver_competences").getOrCreate()
+spark = SparkSession.builder.master("local[2]").appName("silver_competences").config("spark.sql.execution.pythonUDF.arrow.enabled", "false").getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
 
 silver = spark.read.parquet("data/silver/offres")
