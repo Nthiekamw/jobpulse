@@ -47,7 +47,7 @@ Relancer sans retelecharger l'export :
 
 Tableau de bord (optionnel, il ne fait que lire les tables Gold) :
 
-    streamlit run src/dashboard_export.py
+    streamlit run src/dashboard_filtres.py
 
 Les tables Gold sont des fichiers Parquet lisibles directement avec pandas.
 
