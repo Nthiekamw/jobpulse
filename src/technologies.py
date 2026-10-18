@@ -1,12 +1,14 @@
 TECHNOLOGIES = [
     "python", "sql", "java", "javascript", "typescript", "scala", "php", "c++", "c#",
     "spark", "pyspark", "hadoop", "kafka", "airflow", "dbt", "talend",
-    "power bi", "tableau", "qlik", "looker", "excel", "metabase", "streamlit",
+    "power bi", "qlik", "looker", "excel", "metabase", "streamlit",
     "mysql", "postgresql", "oracle", "sql server", "mongodb", "elasticsearch", "redis",
     "docker", "kubernetes", "git", "github", "gitlab", "jenkins", "terraform", "ansible",
     "linux", "windows server", "active directory", "vmware", "office 365", "azure", "aws", "gcp",
-    "react", "angular", "vue", "node.js", "django", "flask", "symfony", "laravel", "spring",
+    "react", "angular", "node.js", "django", "flask", "symfony", "laravel", "spring",
     "machine learning", "deep learning", "nlp", "pandas", "numpy", "scikit-learn", "tensorflow",
-    "api", "rest", "scrum", "agile", "jira", "devops", "cybersecurite", "reseau", "cisco",
+    "api", "rest", "scrum", "agile", "jira", "devops", "cybersecurite", "cisco",
     "erp", "sap", "salesforce", "sharepoint", "vba", "html", "css", "figma",
 ]
+
+TECHNOLOGIES += ["vue.js", "vuejs", "reseau informatique", "reseaux informatiques", "tableau software", "tableau desktop"]

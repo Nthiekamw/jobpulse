@@ -6,7 +6,7 @@ def test_detecte_technologies():
 
 
 def test_ignore_accents_et_majuscules():
-    assert "reseau" in extraire("Technicien Réseau", "")
+    assert "reseaux informatiques" in extraire("Technicien", "Réseaux Informatiques")
 
 
 def test_java_ne_matche_pas_javascript():
@@ -20,3 +20,7 @@ def test_texte_vide():
 
 def test_normaliser():
     assert normaliser("Cybersécurité") == "cybersecurite"
+
+
+def test_pas_de_faux_positifs():
+    assert extraire("", "en vue de, point de vue, reseau de distribution, tableau de bord") == []
