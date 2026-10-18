@@ -1,0 +1,6 @@
+etape,duree_secondes,statut
+Telechargement de l'export,22,OK
+Conversion en JSON Lines,23,OK
+Silver : offres et recruteurs,41,OK
+Extraction des competences,143,OK
+Gold : tables d'agregation,21,OK

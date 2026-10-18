@@ -3,7 +3,7 @@ import json
 import os
 from collections import Counter
 
-SRC = "data/bronze/export/export_2026-10-17.bin"
+SRC = "data/bronze/export/export_courant.bin"
 DEST = "data/bronze/export_jsonl"
 TAILLE = 20000
 
