@@ -12,3 +12,5 @@ TECHNOLOGIES = [
 ]
 
 TECHNOLOGIES += ["vue.js", "vuejs", "reseau informatique", "reseaux informatiques", "tableau software", "tableau desktop"]
+
+TECHNOLOGIES += ["word", "powerpoint", "outlook", "pack office", "autocad", "solidworks", "catia", "photoshop", "illustrator", "indesign", "canva", "wordpress", "shopify", "hubspot", "ebp", "cegid", "quickbooks"]
