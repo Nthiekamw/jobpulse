@@ -99,7 +99,7 @@ g.subheader("Offres par département")
 if not dept.empty:
     g.plotly_chart(barres(dept.rename_axis("departement").reset_index(name="nb_offres"),
                           "nb_offres", "departement"), width="stretch")
-src = d["source"].value_counts().head(12)
+src = d["source"].value_counts()
 s.subheader("Offres par source")
 s.plotly_chart(barres(src.rename_axis("source").reset_index(name="nb_offres"),
                       "nb_offres", "source"), width="stretch")

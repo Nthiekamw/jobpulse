@@ -77,6 +77,45 @@ if os.path.exists(fichier_adzuna):
 else:
     print("Fichier Adzuna absent : integration ignoree")
 
+
+fichier_jooble = "data/bronze/" + __import__("datetime").datetime.now().strftime("%Y-%m-%d") + "/jooble_page_1.json"
+
+if os.path.exists(fichier_jooble):
+    jooble_brut = spark.read.option("multiLine", True).json(fichier_jooble)
+    jooble = jooble_brut.select(F.explode("jobs").alias("offre")).select(
+        F.col("offre.id").cast("string").alias("id_offre"),
+        F.lit("jooble").alias("source"),
+        F.col("offre.title").alias("titre"),
+        F.col("offre.snippet").alias("description"),
+        F.array().cast("array<string>").alias("competences_declarees"),
+        F.array().cast("array<string>").alias("codes_rome"),
+        F.col("offre.company").alias("entreprise"),
+        F.lit(None).cast("string").alias("taille_entreprise"),
+        F.col("offre.location").alias("adresse"),
+        F.lit(None).cast("long").alias("duree_mois"),
+        F.lit(None).cast("string").alias("mode_travail"),
+        F.when(F.col("offre.type").isNotNull(),
+               F.array(F.col("offre.type").cast("string"))
+        ).otherwise(F.array().cast("array<string>")).alias("types_contrat"),
+        F.col("offre.updated").cast("string").alias("date_publication"),
+        F.lit(None).cast("string").alias("code_naf"),
+        F.lit(None).cast("string").alias("secteur_naf"),
+        F.lit(None).cast("double").alias("salaire_min"),
+        F.lit(None).cast("double").alias("salaire_max"),
+        F.lit("Jooble").alias("categorie_source"),
+        F.lit(None).cast("string").alias("salaire_estime"),
+        F.lit(None).cast("string").alias("temps_travail"),
+        F.when(F.lower(F.col("offre.type")).contains("cdi"), "CDI")
+         .when(F.lower(F.col("offre.type")).contains("cdd"), "CDD")
+         .when(F.lower(F.col("offre.type")).contains("intérim") |
+               F.lower(F.col("offre.type")).contains("interim"), "Intérim")
+         .otherwise(None).alias("type_contrat_normalise")
+    )
+    silver = silver.unionByName(jooble).dropDuplicates(["source", "id_offre"])
+    print("Offres Jooble integrees :", jooble.count())
+else:
+    print("Fichier Jooble absent : integration ignoree")
+
 rec = recruteurs.select(
     F.col("identifier.id").alias("id_recruteur"),
     F.col("workplace.name").alias("entreprise"),
