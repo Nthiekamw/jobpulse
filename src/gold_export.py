@@ -20,7 +20,20 @@ source = source.orderBy(F.desc("nb_offres"))
 rome = s.select(F.explode("codes_rome").alias("code_rome")).groupBy("code_rome").count()
 rome = rome.withColumnRenamed("count", "nb_offres").orderBy(F.desc("nb_offres"))
 
-tables = [("top_technologies", top), ("offres_par_departement", dept),
+contrats = (
+    s.withColumn(
+        "type_contrat_normalise",
+        F.coalesce(F.col("type_contrat_normalise"), F.lit("Non renseigné"))
+    )
+    .groupBy("type_contrat_normalise")
+    .count()
+    .withColumnRenamed("type_contrat_normalise", "contrat")
+    .withColumnRenamed("count", "nb_offres")
+    .orderBy(F.desc("nb_offres"))
+)
+
+tables = [("offres_par_contrat", contrats),
+          ("top_technologies", top), ("offres_par_departement", dept),
           ("offres_par_source", source), ("offres_par_rome", rome)]
 for nom, df in tables:
     df.coalesce(1).write.mode("overwrite").parquet("data/gold_export/" + nom)

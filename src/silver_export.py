@@ -41,7 +41,7 @@ silver = offres.select(
     ).otherwise(None).alias("type_contrat_normalise")
 ).dropDuplicates(["source", "id_offre"])
 
-fichier_adzuna = "data/bronze/" + __import__("datetime").datetime.now().strftime("%Y-%m-%d") + "/adzuna_page_1.json"
+fichier_adzuna = (sorted(__import__("glob").glob("data/bronze/*/adzuna_page_1.json"))[-1] if __import__("glob").glob("data/bronze/*/adzuna_page_1.json") else "")
 
 if os.path.exists(fichier_adzuna):
     adzuna_brut = spark.read.option("multiLine", True).json(fichier_adzuna)
@@ -78,7 +78,8 @@ else:
     print("Fichier Adzuna absent : integration ignoree")
 
 
-fichier_jooble = "data/bronze/" + __import__("datetime").datetime.now().strftime("%Y-%m-%d") + "/jooble_page_1.json"
+fichiers_jooble = sorted(__import__("glob").glob("data/bronze/*/jooble_page_1.json"))
+fichier_jooble = fichiers_jooble[-1] if fichiers_jooble else ""
 
 if os.path.exists(fichier_jooble):
     jooble_brut = spark.read.option("multiLine", True).json(fichier_jooble)
@@ -105,8 +106,8 @@ if os.path.exists(fichier_jooble):
         F.lit("Jooble").alias("categorie_source"),
         F.lit(None).cast("string").alias("salaire_estime"),
         F.lit(None).cast("string").alias("temps_travail"),
-        F.when(F.lower(F.col("offre.type")).contains("cdi"), "CDI")
-         .when(F.lower(F.col("offre.type")).contains("cdd"), "CDD")
+        F.when(F.col("offre.type_contrat") == "CDI", "CDI")
+         .when(F.col("offre.type_contrat") == "CDD", "CDD")
          .when(F.lower(F.col("offre.type")).contains("intérim") |
                F.lower(F.col("offre.type")).contains("interim"), "Intérim")
          .otherwise(None).alias("type_contrat_normalise")
